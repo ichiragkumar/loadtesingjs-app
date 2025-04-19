@@ -1,23 +1,37 @@
-import autocannon from "autocannon"
+const autocannon = require("autocannon");
 
-
-
-const url = 'http://localhost:3000/';
-const duration = 30;
-
-
-const instance = autocannon({
-    url, 
-    duration
-}, (err, result) =>{
-    if(err){
-        console.error("Error is", err)
-    }else{
-        console.log("Result", result.requests.total)
-        console.log("Result", result.duration)
+function runAutocannon({ url, connections = 100, duration = 10 }) {
+  const instance = autocannon(
+    {
+      url,
+      connections,
+      duration,
+    },
+    (err, result) => {
+      if (err) {
+        console.error(`Error on ${url}`, err);
+      } else {
+        console.log(`\nResults for ${url}`);
+        console.log("Total Requests:", result.requests.total);
+        console.log("Total Duration:", result.duration);
+        console.log("Latency (avg):", result.latency.average);
+      }
     }
-})
+  );
+
+  autocannon.track(instance, { renderProgressBar: true });
+}
 
 
-autocannon.track(instance)
-
+runAutocannon({
+    url: "http://localhost:3000/",
+    connections: 50,
+    duration: 15,
+  });
+  
+  runAutocannon({
+    url: "http://localhost:3000/stress-test",
+    connections: 100,
+    duration: 20,
+  });
+  
