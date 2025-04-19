@@ -29,9 +29,10 @@ runAutocannon({
     duration: 15,
   });
   
-  runAutocannon({
+runAutocannon({
     url: "http://localhost:3000/stress-test",
     connections: 100,
     duration: 20,
   });
+  
   

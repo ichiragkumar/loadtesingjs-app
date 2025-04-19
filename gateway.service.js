@@ -5,23 +5,24 @@
 // and route the request
 
 
-// use express tttp proxy
+// use express http proxy
 
 
+import express from "express";
+import proxy from "express-http-proxy";
 
-import express from 'express'
-import proxy from 'express-http-proxy'
-const app = express()
+const app = express();
 
+// Base route -> 3001
+app.use("/", proxy("http://localhost:3001", {
+  proxyReqPathResolver: req => "/"
+}));
 
-app.use('/stress-test',proxy("http://localhost:3002") )
+// Stress-test route -> 3002
+app.use("/stress-test", proxy("http://localhost:3002", {
+  proxyReqPathResolver: req => "/stress-test"
+}));
 
-// if you want you can bring any url from any device/deployed server and replace the proxy url
-// app.use('/',proxy("http://localhost:3001") )
-
-app.use('/',proxy("http://localhost:3001") )
-
-
-app.listen(3000, ()=>{
-    console.log("main gateway service is running at 3000")
-})
+app.listen(3000, () => {
+  console.log("Gateway running on 3000");
+});

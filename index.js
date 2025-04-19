@@ -1,17 +1,14 @@
-import express from "express"
+// 3001 server
+import express from "express";
 import morgan from "morgan";
 
-const app = express()
-app.use(morgan("dev"))
+const app = express();
+app.use(morgan("dev"));
 
-app.get("/stress-test", (req, res)=>{
-    for (let i =0; i<10000000000;i++){
-    }
-    res.send("hello world")
-})
+app.get("/", (req, res) => {
+  res.send("Hello from base route on 3001");
+});
 
-
-
-app.listen(3001, ()=>{
-    console.log("server is running at 3001")
-})
+app.listen(3001, () => {
+  console.log("server is running at 3001");
+});
