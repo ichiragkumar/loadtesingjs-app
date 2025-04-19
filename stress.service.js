@@ -12,6 +12,6 @@ app.get("/stress-test", (req, res)=>{
 
 
 
-app.listen(3001, ()=>{
-    console.log("server is running at 3001")
+app.listen(3002, ()=>{
+    console.log("server is running at 3002")
 })
